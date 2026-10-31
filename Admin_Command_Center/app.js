@@ -7,7 +7,10 @@
  * ============================================================================
  */
 
-const API_BASE = 'http://localhost:3000/api';
+// Dynamic API Base: Automatically uses relative cloud origin when hosted on Render / Web, or localhost fallback
+const API_BASE = (window.location.origin && window.location.origin.startsWith('http') && !window.location.href.startsWith('file:'))
+  ? `${window.location.origin.replace(/\/+$/, '')}/api`
+  : 'http://localhost:3000/api';
 
 // Global State
 const appState = {
