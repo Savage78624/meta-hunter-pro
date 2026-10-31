@@ -923,9 +923,14 @@
           saveBtn.className = 'oracle-save-btn saved';
           saveBtn.style.opacity = '1';
         } else {
-          saveBtn.innerHTML = '⚠️ Error (Retry)';
+          const errMsg = response && response.error ? response.error : 'Server offline';
+          saveBtn.innerHTML = '⚠️ Server Offline';
+          saveBtn.title = `Failed to connect to ${state.serverBaseUrl || 'http://localhost:3000'}: ${errMsg}`;
           saveBtn.style.opacity = '1';
-          console.error('[Ad Oracle] Vault save error:', response ? response.error : 'No response from local server');
+          console.error('[Ad Oracle] Vault save error:', errMsg);
+          setTimeout(() => {
+            saveBtn.innerHTML = '💾 Save to Vault';
+          }, 4000);
         }
       });
     });
