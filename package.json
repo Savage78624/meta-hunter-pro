@@ -1,0 +1,18 @@
+{
+  "name": "meta-hunter-pro",
+  "version": "1.0.0",
+  "description": "Meta Hunter Pro (Ad Oracle) - Reverse-Engineering Meta Ads Library for Indian D2C Dropshipping",
+  "main": "Meta_Ad_Server/server.js",
+  "scripts": {
+    "start": "node Meta_Ad_Server/server.js",
+    "dev": "node Meta_Ad_Server/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+

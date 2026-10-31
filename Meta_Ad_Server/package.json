@@ -1,0 +1,23 @@
+{
+  "name": "meta-ad-server",
+  "version": "1.0.0",
+  "description": "Local Vault backend and flat-file database for Meta Hunter Pro (Ad Oracle)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "meta-ads",
+    "ad-spy",
+    "dropshipping",
+    "rto-calculator",
+    "ad-oracle"
+  ],
+  "author": "Ad Oracle Engineering",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}

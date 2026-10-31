@@ -1,0 +1,39 @@
+{
+  "ads": [
+    {
+      "id": "1764812350976747",
+      "brand": "Started running on 11 Feb 2025",
+      "pageLikes": "N/A",
+      "startDate": "11 Feb 2025",
+      "daysActive": 627,
+      "status": "Winner",
+      "adCopy": "Visual Creative Ad",
+      "mediaUrl": "https://scontent.fblr4-1.fna.fbcdn.net/v/t39.35426-6/476832799_539700715109535_4456228260526609900_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=n5yMWFg_Hf4Q7kNvwGHI3y5&_nc_oc=Adr4Ki9xGEByD8L6bwRApaBTjF7r0S-DuuEw4WqnH7sLk6CMUrkZz6tRkCQZFcSexm9Z7d8fl1JRqMJ-XtjAGlV2&_nc_zt=14&_nc_ht=scontent.fblr4-1.fna&_nc_gid=3S700X5P8Shxy6F2QmyKAg&_nc_ss=7b289&oh=00_AQQurblKUimkBEvcDiXsXltfglZw5zJO4nqqev5pY3Nqcw&oe=6AEB1E38",
+      "landingPage": "https://www.sampuranswadeshi.com/products/punarnava-makoy-juice",
+      "platform": "Shopify",
+      "rtoMetrics": {
+        "sellingPrice": 1299,
+        "sourcingCost": 350,
+        "rtoRate": 30,
+        "breakevenRoas": "2.44",
+        "netMarginPerDelivered": 580
+      },
+      "savedAt": "2026-10-31T00:34:21.566Z",
+      "tags": [
+        "Meta Ads Library Intercept"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_1793406861567",
+      "brand": "Started running on 11 Feb 2025",
+      "storeUrl": "https://www.sampuranswadeshi.com",
+      "platform": "Shopify",
+      "niche": "Auto-extracted from Ad #1764812350976747",
+      "notes": "Extracted from ad: Visual Creative Ad...",
+      "firstSeen": "2026-10-31",
+      "status": "Active"
+    }
+  ]
+}

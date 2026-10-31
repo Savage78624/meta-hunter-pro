@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Meta Hunter Pro - Ad Oracle (Indian D2C Intelligence)",
+  "version": "1.0.0",
+  "description": "Reverse-engineer Meta Ads Library for Indian dropshipping with ad lifespan scoring, true COD RTO margin calculators, footprint hunter, and local vault sync.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*.facebook.com/ads/library/*",
+    "*://facebook.com/ads/library/*",
+    "http://localhost:3000/*",
+    "*://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.facebook.com/ads/library/*",
+        "*://facebook.com/ads/library/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "style.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Meta Hunter Pro - Ad Oracle"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "style.css"
+      ],
+      "matches": [
+        "*://*.facebook.com/*"
+      ]
+    }
+  ]
+}

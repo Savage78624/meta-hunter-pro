@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Meta Hunter Pro (Ad Oracle)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b'
+            },
+            dark: {
+              800: '#111827',
+              850: '#0f172a',
+              900: '#090d16',
+              950: '#030712'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      width: 360px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-gray-100 p-4 select-none">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between border-b border-gray-800 pb-3 mb-4">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center shadow-lg shadow-brand-500/20">
+        <span class="text-black font-black text-xs">AO</span>
+      </div>
+      <div>
+        <h1 class="text-sm font-bold text-white flex items-center gap-1.5">
+          Ad Oracle <span class="text-xs font-semibold px-1.5 py-0.2 rounded bg-brand-500/10 text-brand-400 border border-brand-500/20">Pro</span>
+        </h1>
+        <p class="text-[10px] text-gray-400">Meta Ads Reverse-Engineering</p>
+      </div>
+    </div>
+    
+    <!-- Health Status Indicator -->
+    <div id="status-pill" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-800/80 border border-gray-700 text-[11px] font-medium text-gray-400">
+      <span id="status-dot" class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+      <span id="status-text">Connecting...</span>
+    </div>
+  </div>
+
+  <!-- Telemetry Vault Counters -->
+  <div class="grid grid-cols-2 gap-2.5 mb-4">
+    <div class="bg-dark-800 border border-gray-800 p-3 rounded-xl flex flex-col justify-between">
+      <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Vaulted Ads</div>
+      <div class="flex items-baseline gap-1 mt-1">
+        <span id="stat-ads-count" class="text-2xl font-black text-brand-400">--</span>
+        <span class="text-[10px] text-gray-500">Winners</span>
+      </div>
+    </div>
+
+    <div class="bg-dark-800 border border-gray-800 p-3 rounded-xl flex flex-col justify-between">
+      <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Monitored Stores</div>
+      <div class="flex items-baseline gap-1 mt-1">
+        <span id="stat-stores-count" class="text-2xl font-black text-blue-400">--</span>
+        <span class="text-[10px] text-gray-500">Brands</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Switches -->
+  <div class="bg-dark-800/70 border border-gray-800 rounded-xl p-3 mb-4 space-y-3">
+    <div class="text-[10px] font-bold uppercase tracking-wider text-gray-400 pb-1 border-b border-gray-800">
+      Hunter Engines
+    </div>
+
+    <!-- Toggle 1: Traffic Light Lifespan -->
+    <label class="flex items-center justify-between cursor-pointer">
+      <span class="text-xs font-medium text-gray-200 flex items-center gap-1.5">
+        <span>🟢</span> Traffic Light Lifespan (>14d)
+      </span>
+      <input type="checkbox" id="toggle-traffic" checked class="w-4 h-4 accent-emerald-500 rounded cursor-pointer" />
+    </label>
+
+    <!-- Toggle 2: Exclusion Engine -->
+    <label class="flex items-center justify-between cursor-pointer">
+      <span class="text-xs font-medium text-gray-200 flex items-center gap-1.5">
+        <span>🛡️</span> Exclude FMCG (>100k Likes) & B2B
+      </span>
+      <input type="checkbox" id="toggle-exclusion" checked class="w-4 h-4 accent-emerald-500 rounded cursor-pointer" />
+    </label>
+
+    <!-- RTO Tool Link -->
+    <div class="pt-2 border-t border-gray-800 flex items-center justify-between text-[11px] text-gray-400">
+      <span class="flex items-center gap-1.5"><span>🧮</span> RTO ROAS Calculator</span>
+      <span class="text-brand-400 font-semibold">Admin Top Bar ↗</span>
+    </div>
+  </div>
+
+  <!-- Cloud / Local Server Endpoint Config -->
+  <div class="bg-dark-800/70 border border-gray-800 rounded-xl p-3 mb-4 space-y-2">
+    <div class="flex items-center justify-between">
+      <div class="text-[10px] font-bold uppercase tracking-wider text-gray-400">
+        🌐 Vault Endpoint (24/7 Cloud or Local)
+      </div>
+      <span id="endpoint-mode-badge" class="text-[9.5px] font-bold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/20">
+        Localhost
+      </span>
+    </div>
+
+    <div class="flex items-center gap-1.5">
+      <input type="text" id="input-server-url" placeholder="http://localhost:3000 or https://..." class="flex-1 bg-dark-900 border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand-500 transition font-mono text-[11px]" />
+      <button type="button" id="btn-save-server" class="bg-brand-500 hover:bg-brand-400 text-black font-bold text-[11px] px-3 py-1.5 rounded-lg transition whitespace-nowrap">
+        Save & Ping
+      </button>
+    </div>
+    <div class="text-[9.5px] text-gray-400 flex items-center justify-between">
+      <span>Paste your free Render.com / Koyeb URL to run 24/7</span>
+      <button type="button" id="btn-reset-server" class="text-gray-400 hover:text-white underline">Reset Local</button>
+    </div>
+  </div>
+
+  <!-- Quick Action Buttons -->
+  <div class="space-y-2">
+    <button id="btn-open-admin" class="w-full bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-black font-extrabold text-xs py-2.5 px-3 rounded-xl shadow-lg shadow-brand-500/20 transition flex items-center justify-center gap-2">
+      <span>⚡</span> Open Admin Command Center
+    </button>
+
+    <button id="btn-open-meta" class="w-full bg-dark-800 hover:bg-gray-800 text-gray-200 border border-gray-700 font-semibold text-xs py-2 px-3 rounded-xl transition flex items-center justify-center gap-2">
+      <span>🎯</span> Launch Meta Ads Library (India)
+    </button>
+  </div>
+
+  <!-- Footer Info -->
+  <div class="mt-4 pt-3 border-t border-gray-800/80 flex items-center justify-between text-[10px] text-gray-500">
+    <span id="footer-server-text">Server: localhost:3000</span>
+    <span class="font-mono">v1.1.0 Cloud Ready</span>
+  </div>
+
+  <script>
+    // Popup Controller - Dynamic Server URL
+    let currentServerBase = 'http://localhost:3000';
+
+    async function checkServerHealth() {
+      const dot = document.getElementById('status-dot');
+      const text = document.getElementById('status-text');
+      const adsCountEl = document.getElementById('stat-ads-count');
+      const storesCountEl = document.getElementById('stat-stores-count');
+      const modeBadge = document.getElementById('endpoint-mode-badge');
+      const footerText = document.getElementById('footer-server-text');
+
+      dot.className = 'w-2 h-2 rounded-full bg-yellow-400 animate-pulse';
+      text.textContent = 'Connecting...';
+      text.className = 'text-gray-400';
+
+      const isCloud = !currentServerBase.includes('localhost') && !currentServerBase.includes('127.0.0.1');
+      modeBadge.textContent = isCloud ? 'Cloud 24/7' : 'Localhost';
+      modeBadge.className = isCloud
+        ? 'text-[9.5px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20'
+        : 'text-[9.5px] font-bold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/20';
+      footerText.textContent = `Server: ${currentServerBase.replace(/^https?:\/\//, '')}`;
+
+      try {
+        const res = await fetch(`${currentServerBase}/api/health`);
+        const data = await res.json();
+        
+        if (data.status === 'online') {
+          dot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+          text.textContent = isCloud ? 'Cloud Online' : 'Vault Online';
+          text.className = 'text-emerald-400 font-bold';
+          adsCountEl.textContent = data.stats.totalSavedAds || 0;
+          storesCountEl.textContent = data.stats.totalMonitoredStores || 0;
+        } else {
+          throw new Error('Non-online status');
+        }
+      } catch (e) {
+        dot.className = 'w-2 h-2 rounded-full bg-rose-500';
+        text.textContent = 'Vault Offline';
+        text.className = 'text-rose-400';
+        adsCountEl.textContent = '--';
+        storesCountEl.textContent = '--';
+      }
+    }
+
+    // Server URL Config & Persistence
+    function initServerConfig() {
+      const inputServer = document.getElementById('input-server-url');
+      const btnSave = document.getElementById('btn-save-server');
+      const btnReset = document.getElementById('btn-reset-server');
+
+      chrome.storage.local.get(['vaultServerUrl'], (res) => {
+        currentServerBase = (res.vaultServerUrl || 'http://localhost:3000').trim().replace(/\/+$/, '');
+        inputServer.value = currentServerBase;
+        checkServerHealth();
+      });
+
+      btnSave.addEventListener('click', () => {
+        let val = inputServer.value.trim().replace(/\/+$/, '');
+        if (!val) val = 'http://localhost:3000';
+        if (!val.startsWith('http://') && !val.startsWith('https://')) {
+          val = 'https://' + val;
+        }
+        currentServerBase = val;
+        inputServer.value = val;
+        chrome.storage.local.set({ vaultServerUrl: val }, () => {
+          checkServerHealth();
+        });
+      });
+
+      btnReset.addEventListener('click', () => {
+        currentServerBase = 'http://localhost:3000';
+        inputServer.value = currentServerBase;
+        chrome.storage.local.set({ vaultServerUrl: currentServerBase }, () => {
+          checkServerHealth();
+        });
+      });
+    }
+
+    // Toggles Sync with Storage
+    function initToggles() {
+      const toggleTraffic = document.getElementById('toggle-traffic');
+      const toggleExclusion = document.getElementById('toggle-exclusion');
+
+      chrome.storage.local.get(['oracleConfig'], (res) => {
+        const config = res.oracleConfig || {};
+        if (typeof config.trafficLightEnabled !== 'undefined') toggleTraffic.checked = config.trafficLightEnabled;
+        if (typeof config.exclusionEngineEnabled !== 'undefined') toggleExclusion.checked = config.exclusionEngineEnabled;
+      });
+
+      function saveConfig() {
+        chrome.storage.local.get(['oracleConfig'], (res) => {
+          const current = res.oracleConfig || {};
+          const updated = {
+            ...current,
+            trafficLightEnabled: toggleTraffic.checked,
+            exclusionEngineEnabled: toggleExclusion.checked
+          };
+          chrome.storage.local.set({ oracleConfig: updated });
+        });
+      }
+
+      toggleTraffic.addEventListener('change', saveConfig);
+      toggleExclusion.addEventListener('change', saveConfig);
+    }
+
+    // Buttons
+    document.getElementById('btn-open-meta').addEventListener('click', () => {
+      chrome.tabs.create({ url: 'https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=IN' });
+    });
+
+    document.getElementById('btn-open-admin').addEventListener('click', () => {
+      const adminUrl = currentServerBase.replace(/\/+$/, '') + '/admin';
+      chrome.tabs.create({ url: adminUrl });
+    });
+
+    // Run
+    initServerConfig();
+    initToggles();
+  </script>
+</body>
+</html>

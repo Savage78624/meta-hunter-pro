@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Meta Hunter Pro (Ad Oracle) - Admin Command Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              900: '#064e3b'
+            },
+            dark: {
+              800: '#111827',
+              850: '#0d1322',
+              900: '#070b12',
+              950: '#030712'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-dark-900 text-gray-100 min-h-screen flex flex-col">
+
+  <!-- TOP NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 bg-dark-850/90 backdrop-blur-md border-b border-gray-800 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center shadow-lg shadow-brand-500/25">
+          <span class="text-black font-black text-sm tracking-wider">AO</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-extrabold text-white tracking-tight">AD ORACLE</h1>
+            <span class="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-md bg-brand-500/10 text-brand-400 border border-brand-500/20">
+              Command Center
+            </span>
+          </div>
+          <p class="text-xs text-gray-400">Meta Ads Intelligence & Indian D2C Unit Economics</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="hidden md:flex items-center space-x-1 bg-dark-800 p-1 rounded-xl border border-gray-800">
+        <button id="tab-btn-ads" class="tab-btn active px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 bg-brand-500 text-black shadow-md">
+          <span>🔥</span> Saved Winning Ads
+        </button>
+        <button id="tab-btn-stores" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition flex items-center gap-2">
+          <span>🏬</span> Competitor Stores
+        </button>
+        <button id="tab-btn-simulator" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition flex items-center gap-2">
+          <span>🇮🇳</span> RTO Simulator
+        </button>
+      </nav>
+
+      <!-- Right Actions & Server Status -->
+      <div class="flex items-center gap-2.5">
+        
+        <!-- Top Bar RTO Calculator Tool Button -->
+        <button id="btn-open-top-calculator" class="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-black font-extrabold text-xs rounded-xl shadow-lg shadow-brand-500/25 transition transform hover:-translate-y-0.5 cursor-pointer">
+          <span class="text-sm">🧮</span>
+          <span>RTO Calculator</span>
+          <span class="text-[9px] bg-black/20 text-black px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">TOOL</span>
+        </button>
+
+        <div id="server-status-pill" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-800 border border-gray-800 text-xs font-medium">
+          <span id="server-status-dot" class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse"></span>
+          <span id="server-status-text" class="text-gray-300">Checking Vault...</span>
+        </div>
+
+        <button id="btn-refresh" title="Reload Vault Data" class="p-2 bg-dark-800 hover:bg-gray-800 text-gray-300 hover:text-white border border-gray-700 rounded-xl transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </button>
+
+        <button id="btn-export-csv" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-dark-800 hover:bg-gray-800 text-gray-300 hover:text-brand-400 border border-gray-700 rounded-xl text-xs font-semibold transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Export CSV
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- KPI OVERVIEW CARDS -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      
+      <div class="glass-panel p-5 rounded-2xl">
+        <div class="flex items-center justify-between text-gray-400 mb-2">
+          <span class="text-xs font-bold uppercase tracking-wider">Vaulted Ads</span>
+          <span class="text-brand-400">📊</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span id="kpi-total-ads" class="text-3xl font-black text-white">0</span>
+          <span class="text-xs text-brand-400 font-semibold">Tracked</span>
+        </div>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl">
+        <div class="flex items-center justify-between text-gray-400 mb-2">
+          <span class="text-xs font-bold uppercase tracking-wider">Proven Winners</span>
+          <span class="text-emerald-400">🔥</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span id="kpi-winner-ads" class="text-3xl font-black text-emerald-400">0</span>
+          <span class="text-xs text-gray-400">>14 Days Running</span>
+        </div>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl">
+        <div class="flex items-center justify-between text-gray-400 mb-2">
+          <span class="text-xs font-bold uppercase tracking-wider">Monitored Stores</span>
+          <span class="text-blue-400">🏬</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span id="kpi-total-stores" class="text-3xl font-black text-blue-400">0</span>
+          <span class="text-xs text-gray-400">Competitors</span>
+        </div>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl">
+        <div class="flex items-center justify-between text-gray-400 mb-2">
+          <span class="text-xs font-bold uppercase tracking-wider">Avg Breakeven ROAS</span>
+          <span class="text-amber-400">🎯</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span id="kpi-avg-roas" class="text-3xl font-black text-amber-400">2.62x</span>
+          <span class="text-xs text-gray-400">India 30% RTO</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 1: SAVED WINNING ADS -->
+    <section id="view-ads" class="space-y-6">
+      
+      <!-- Filter & Search Toolbar -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 glass-panel p-4 rounded-2xl">
+        
+        <!-- Search Input -->
+        <div class="relative w-full sm:w-80">
+          <input type="text" id="ads-search-input" placeholder="Search by brand, copy, or Ad ID..." class="w-full bg-dark-800 border border-gray-700/80 rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-400 focus:outline-none focus:border-brand-500 transition pl-9" />
+          <svg class="w-4 h-4 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+          <button class="ad-filter-pill active px-3 py-1.5 rounded-lg text-xs font-bold bg-dark-800 text-white border border-gray-700" data-filter="all">
+            All Ads (<span id="count-filter-all">0</span>)
+          </button>
+          <button class="ad-filter-pill px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-emerald-400 border border-transparent" data-filter="Winner">
+            🔥 Winners (>14d) (<span id="count-filter-winners">0</span>)
+          </button>
+          <button class="ad-filter-pill px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-amber-400 border border-transparent" data-filter="Testing">
+            ⚡ Testing (5-13d) (<span id="count-filter-testing">0</span>)
+          </button>
+          <button class="ad-filter-pill px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-rose-400 border border-transparent" data-filter="Volatile">
+            ⚠️ Volatile (<span id="count-filter-volatile">0</span>)
+          </button>
+        </div>
+
+        <!-- Second Row: Media Format & Extended Lifespan Filter Chips -->
+        <div class="flex flex-wrap items-center justify-between gap-4 w-full pt-3 border-t border-gray-800/80 text-xs">
+          <!-- Media Filter -->
+          <div class="flex items-center gap-1.5">
+            <span class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">🎬 Media:</span>
+            <button class="admin-media-pill active px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-dark-800 text-white border border-gray-700" data-media="all">All Media</button>
+            <button class="admin-media-pill px-2.5 py-1 rounded-lg text-[11px] font-semibold text-gray-400 hover:text-white border border-transparent" data-media="video">🎥 Videos</button>
+            <button class="admin-media-pill px-2.5 py-1 rounded-lg text-[11px] font-semibold text-gray-400 hover:text-white border border-transparent" data-media="image">🖼️ Images</button>
+          </div>
+
+          <!-- Days Active Thresholds -->
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+            <span class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">⏱️ Active:</span>
+            <button class="admin-days-pill active px-2 py-1 rounded-lg text-[11px] font-semibold bg-dark-800 text-white border border-gray-700" data-days="0">All Time</button>
+            <button class="admin-days-pill px-2 py-1 rounded-lg text-[11px] font-semibold text-gray-400 hover:text-emerald-400 border border-transparent" data-days="3">> 3 Days</button>
+            <button class="admin-days-pill px-2 py-1 rounded-lg text-[11px] font-semibold text-gray-400 hover:text-emerald-400 border border-transparent" data-days="7">> 1 Week</button>
+            <button class="admin-days-pill px-2 py-1 rounded-lg text-[11px] font-semibold text-gray-400 hover:text-emerald-400 border border-transparent" data-days="14">> 2 Weeks</button>
+            <button class="admin-days-pill px-2 py-1 rounded-lg text-[11px] font-semibold text-gray-400 hover:text-emerald-400 border border-transparent" data-days="21">> 3 Weeks</button>
+            <button class="admin-days-pill px-2 py-1 rounded-lg text-[11px] font-semibold text-gray-400 hover:text-emerald-400 border border-transparent" data-days="30">> 1 Month</button>
+            <button class="admin-days-pill px-2 py-1 rounded-lg text-[11px] font-semibold text-gray-400 hover:text-emerald-400 border border-transparent" data-days="90">> 3 Months</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Ads Grid Container -->
+      <div id="ads-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynamically populated via app.js -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="ads-empty-state" class="hidden text-center py-16 glass-panel rounded-2xl">
+        <div class="w-16 h-16 rounded-full bg-dark-800 flex items-center justify-center mx-auto mb-4 text-2xl">
+          🔍
+        </div>
+        <h3 class="text-base font-bold text-white mb-1">No Ads Found</h3>
+        <p class="text-xs text-gray-400 max-w-sm mx-auto mb-4">
+          No ads match your search criteria or the local vault has not intercepted any ads yet.
+        </p>
+        <a href="https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=IN" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-brand-500 hover:bg-brand-400 text-black text-xs font-bold rounded-xl transition">
+          Open Meta Ads Library to Intercept
+        </a>
+      </div>
+
+    </section>
+
+    <!-- SECTION 2: MONITORED COMPETITOR STORES -->
+    <section id="view-stores" class="hidden space-y-6">
+      
+      <!-- Store Header & Actions -->
+      <div class="flex items-center justify-between glass-panel p-4 rounded-2xl">
+        <div>
+          <h2 class="text-sm font-bold text-white">Monitored Indian Competitor Storefronts</h2>
+          <p class="text-xs text-gray-400">Keep track of scaling dropshipping stores, their niches, and checkout configurations.</p>
+        </div>
+        
+        <button id="btn-add-store-modal" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-blue-500/20 transition flex items-center gap-1.5">
+          <span>+</span> Add Competitor Store
+        </button>
+      </div>
+
+      <!-- Stores Table Container -->
+      <div class="glass-panel rounded-2xl overflow-hidden border border-gray-800">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-dark-800/80 text-gray-400 font-bold uppercase tracking-wider text-[10px] border-b border-gray-800">
+              <tr>
+                <th class="py-3.5 px-4">Brand & Store Domain</th>
+                <th class="py-3.5 px-4">Platform</th>
+                <th class="py-3.5 px-4">Niche</th>
+                <th class="py-3.5 px-4">Intelligence Notes</th>
+                <th class="py-3.5 px-4">First Seen</th>
+                <th class="py-3.5 px-4">Status</th>
+                <th class="py-3.5 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="stores-table-body" class="divide-y divide-gray-800/60 text-gray-300">
+              <!-- Dynamically populated via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 3: INDIAN COD RTO TRUE MARGIN SIMULATOR SANDBOX -->
+    <section id="view-simulator" class="hidden space-y-6">
+      
+      <div class="glass-panel p-6 rounded-2xl">
+        <div class="max-w-3xl mb-6">
+          <div class="flex items-center gap-2 text-brand-400 text-xs font-bold uppercase tracking-wider mb-1">
+            <span>🇮🇳</span> Unit Economics Engine
+          </div>
+          <h2 class="text-xl font-extrabold text-white tracking-tight">Indian D2C COD & RTO True Margin Simulator</h2>
+          <p class="text-xs text-gray-400 mt-1 leading-relaxed">
+            In Indian e-commerce, 70-80% of orders are Cash on Delivery (COD), and 25-35% return to origin (RTO). 
+            When an order returns, the merchant incurs forward shipping (~₹70) and reverse logistics (~₹60). 
+            Use this interactive simulator to calculate your exact maximum allowable CPA and required Breakeven ROAS.
+          </p>
+        </div>
+
+        <!-- Simulator Grid: Controls + Output Visualizer -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          <!-- Controls (5 cols) -->
+          <div class="lg:col-span-5 space-y-4 bg-dark-800/60 p-5 rounded-2xl border border-gray-800">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-gray-300 pb-2 border-b border-gray-800">
+              Order Parameters (100 Orders Sample)
+            </h3>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Product Selling Price (₹)</label>
+              <input type="number" id="sim-sp" value="1299" step="50" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-brand-500" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Sourcing Cost / COGS (₹)</label>
+              <input type="number" id="sim-cogs" value="350" step="20" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-brand-500" />
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="text-xs font-semibold text-gray-300">Expected RTO Rate (%)</label>
+                <span id="sim-rto-label" class="text-xs font-bold text-amber-400">30%</span>
+              </div>
+              <input type="range" id="sim-rto" min="10" max="60" value="30" class="w-full accent-brand-500 cursor-pointer" />
+              <div class="flex justify-between text-[10px] text-gray-500 mt-1">
+                <span>10% (Prepaid Heavy)</span>
+                <span>30% (Standard COD)</span>
+                <span>60% (High Volatility)</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-gray-400 mb-1">Forward Courier (₹)</label>
+                <input type="number" id="sim-fwd" value="70" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-gray-400 mb-1">Reverse RTO Courier (₹)</label>
+                <input type="number" id="sim-rev" value="60" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Outputs & Feasibility Scorecard (7 cols) -->
+          <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+            
+            <!-- Big Metrics Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div class="glass-panel p-4 rounded-xl border-l-4 border-l-brand-500">
+                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Breakeven ROAS</div>
+                <div id="sim-out-roas" class="text-2xl font-black text-brand-400 mt-1">2.44x</div>
+                <div class="text-[10px] text-gray-400 mt-0.5">Target on Meta Ads</div>
+              </div>
+
+              <div class="glass-panel p-4 rounded-xl border-l-4 border-l-blue-500">
+                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Max Allowable CPA</div>
+                <div id="sim-out-cpa" class="text-2xl font-black text-blue-400 mt-1">₹532</div>
+                <div class="text-[10px] text-gray-400 mt-0.5">Per order placed</div>
+              </div>
+
+              <div class="glass-panel p-4 rounded-xl border-l-4 border-l-amber-500 col-span-2 sm:col-span-1">
+                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Net Realized Margin</div>
+                <div id="sim-out-margin" class="text-2xl font-black text-amber-400 mt-1">41.0%</div>
+                <div class="text-[10px] text-gray-400 mt-0.5">Pool for ad spend & profit</div>
+              </div>
+            </div>
+
+            <!-- Economics Ledger breakdown -->
+            <div class="bg-dark-800/80 p-5 rounded-2xl border border-gray-800 space-y-3">
+              <div class="text-xs font-bold uppercase tracking-wider text-gray-300 pb-2 border-b border-gray-800 flex justify-between">
+                <span>Unit Economics Per 100 Orders</span>
+                <span id="sim-status-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  Viable & Scalable
+                </span>
+              </div>
+
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-400">Total Orders Placed:</span>
+                <span class="font-bold text-white">100 Orders</span>
+              </div>
+
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-400">Delivered Orders (Net Cash In):</span>
+                <span id="sim-ledger-delivered" class="font-bold text-emerald-400">70 Orders</span>
+              </div>
+
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-400">RTO Returned Orders (Waste):</span>
+                <span id="sim-ledger-returned" class="font-bold text-rose-400">30 Orders</span>
+              </div>
+
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-400">Realized Gross Revenue:</span>
+                <span id="sim-ledger-revenue" class="font-bold text-white">₹90,930</span>
+              </div>
+
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-400">Total Product COGS:</span>
+                <span id="sim-ledger-cogs" class="font-bold text-gray-300">₹24,500</span>
+              </div>
+
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-400">Total Courier Logistics (Forward + RTO):</span>
+                <span id="sim-ledger-shipping" class="font-bold text-rose-400">₹8,800</span>
+              </div>
+
+              <div class="pt-2 border-t border-gray-800 flex justify-between text-sm">
+                <span class="font-bold text-white">Gross Margin Available for Meta Ads:</span>
+                <span id="sim-ledger-gross" class="font-black text-brand-400">₹57,630</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ADD COMPETITOR STORE MODAL -->
+  <div id="modal-add-store" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-panel bg-dark-850 w-full max-w-md rounded-2xl border border-gray-700 shadow-2xl p-6 relative">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-800 mb-4">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <span>🏬</span> Add Competitor Store
+        </h3>
+        <button id="modal-close-btn" class="text-gray-400 hover:text-white text-lg">&times;</button>
+      </div>
+
+      <form id="form-add-store" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">Store Website URL</label>
+          <input type="url" id="input-store-url" placeholder="https://competitor.myshopify.com" required class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">Brand Name</label>
+          <input type="text" id="input-store-brand" placeholder="e.g. AuraGlow India" required class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">E-Commerce Platform</label>
+          <select id="input-store-platform" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500">
+            <option value="Shopify">Shopify</option>
+            <option value="WooCommerce">WooCommerce</option>
+            <option value="Custom Ecom">Custom / Headless</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">Niche / Primary Category</label>
+          <input type="text" id="input-store-niche" placeholder="e.g. Car Cleaning & Accessories" class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">Intelligence Notes</label>
+          <textarea id="input-store-notes" rows="3" placeholder="Scaling 3 creatives on Instagram. Uses Gokwik for COD." class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500"></textarea>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" id="modal-cancel-btn" class="px-4 py-2 bg-dark-800 hover:bg-gray-800 text-gray-300 text-xs font-semibold rounded-xl">Cancel</button>
+  <!-- TOP-BAR RTO CALCULATOR TOOL MODAL -->
+  <div id="modal-top-calculator" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-panel bg-dark-850 w-full max-w-2xl rounded-2xl border border-gray-700 shadow-2xl p-6 relative max-h-[92vh] overflow-y-auto">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-gray-800 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center shadow-md">
+            <span class="text-black font-black text-xs">🧮</span>
+          </div>
+          <div>
+            <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+              Indian COD True Margin & RTO Calculator
+              <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                Top Bar Tool
+              </span>
+            </h3>
+            <p class="text-[11px] text-gray-400">Calculate true breakeven ROAS, max allowable CPA, and net profit under COD RTO reality.</p>
+          </div>
+        </div>
+        <button id="btn-close-top-calculator" class="text-gray-400 hover:text-white text-2xl p-1 leading-none">&times;</button>
+      </div>
+
+      <!-- Quick Preset Chips -->
+      <div class="mb-4 flex items-center gap-2 flex-wrap">
+        <span class="text-[10px] font-bold uppercase text-gray-500 tracking-wider">Quick Presets:</span>
+        <button type="button" class="topcalc-preset-chip px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-dark-800 hover:bg-gray-800 text-gray-300 border border-gray-700 hover:border-brand-500 transition" data-sp="999" data-cogs="250" data-rto="30">
+          ₹999 / ₹250 COGS (30% RTO)
+        </button>
+        <button type="button" class="topcalc-preset-chip px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-dark-800 hover:bg-gray-800 text-gray-300 border border-gray-700 hover:border-brand-500 transition active" data-sp="1299" data-cogs="350" data-rto="30">
+          ₹1,299 / ₹350 COGS (30% RTO)
+        </button>
+        <button type="button" class="topcalc-preset-chip px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-dark-800 hover:bg-gray-800 text-gray-300 border border-gray-700 hover:border-brand-500 transition" data-sp="1499" data-cogs="380" data-rto="25">
+          ₹1,499 / ₹380 COGS (25% RTO)
+        </button>
+        <button type="button" class="topcalc-preset-chip px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-dark-800 hover:bg-gray-800 text-gray-300 border border-gray-700 hover:border-brand-500 transition" data-sp="1999" data-cogs="500" data-rto="20">
+          ₹1,999 / ₹500 COGS (20% RTO)
+        </button>
+      </div>
+
+      <!-- Grid: Left Inputs / Right Outputs -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-5 mb-5">
+        
+        <!-- Left: Inputs (6 cols) -->
+        <div class="md:col-span-6 space-y-3.5 bg-dark-900/80 p-4 rounded-xl border border-gray-800">
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Product Selling Price (₹)</label>
+            <input type="number" id="topcalc-sp" value="1299" step="50" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-brand-500" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Sourcing Cost / COGS (₹)</label>
+            <input type="number" id="topcalc-cogs" value="350" step="20" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-brand-500" />
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-xs font-semibold text-gray-300">Expected RTO Rate (%)</label>
+              <span id="topcalc-rto-display" class="text-xs font-bold text-amber-400">30%</span>
+            </div>
+            <input type="range" id="topcalc-rto" min="10" max="60" value="30" class="w-full accent-brand-500 cursor-pointer" />
+            <div class="flex justify-between text-[10px] text-gray-500 mt-0.5">
+              <span>10% (Prepaid)</span>
+              <span>30% (Standard COD)</span>
+              <span>60% (High Volatility)</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5 pt-1">
+            <div>
+              <label class="block text-[11px] font-semibold text-gray-400 mb-1">Forward Courier (₹)</label>
+              <input type="number" id="topcalc-fwd" value="70" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-gray-400 mb-1">Reverse RTO Courier (₹)</label>
+              <input type="number" id="topcalc-rev" value="60" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Results Scorecard (6 cols) -->
+        <div class="md:col-span-6 flex flex-col justify-between space-y-3.5 bg-dark-900/80 p-4 rounded-xl border border-gray-800">
+          
+          <!-- Breakeven ROAS Big Card -->
+          <div class="glass-panel p-3.5 rounded-xl border-l-4 border-l-brand-500">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Breakeven ROAS</span>
+              <span id="topcalc-status-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                Safe & Scalable
+              </span>
+            </div>
+            <div id="topcalc-out-roas" class="text-3xl font-black text-brand-400 mt-1">2.44x</div>
+            <div class="text-[10px] text-gray-400 mt-0.5">Minimum target on Meta Ads Manager</div>
+          </div>
+
+          <!-- Secondary Metrics -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <div class="bg-dark-800/80 p-2.5 rounded-xl border border-gray-800">
+              <span class="text-[10px] text-gray-400 block font-semibold">Max Allowable CPA</span>
+              <span id="topcalc-out-cpa" class="text-lg font-black text-blue-400">₹532</span>
+              <span class="text-[9px] text-gray-500 block">Per order placed</span>
+            </div>
+            <div class="bg-dark-800/80 p-2.5 rounded-xl border border-gray-800">
+              <span class="text-[10px] text-gray-400 block font-semibold">Net Profit / Order</span>
+              <span id="topcalc-out-margin" class="text-lg font-black text-amber-400">₹760</span>
+              <span class="text-[9px] text-gray-500 block">Per delivered unit</span>
+            </div>
+          </div>
+
+          <!-- Quick Economics Ledger -->
+          <div class="text-[11px] text-gray-300 space-y-1.5 pt-2 border-t border-gray-800">
+            <div class="flex justify-between">
+              <span class="text-gray-400">Delivered Units (70%):</span>
+              <span id="topcalc-ledger-delivered" class="font-bold text-emerald-400">70 / 100</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400">Lost to RTO (30%):</span>
+              <span id="topcalc-ledger-returned" class="font-bold text-rose-400">30 / 100</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400">Total Courier Penalty:</span>
+              <span id="topcalc-ledger-shipping" class="font-bold text-rose-400">₹8,800</span>
+            </div>
+            <div class="flex justify-between pt-1 border-t border-gray-800 font-bold">
+              <span>Gross Margin Pool:</span>
+              <span id="topcalc-ledger-pool" class="text-brand-400 font-black">₹53,230</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Action Footer -->
+      <div class="flex items-center justify-between pt-3 border-t border-gray-800">
+        <button type="button" id="topcalc-btn-copy" class="px-3.5 py-2 bg-dark-800 hover:bg-gray-800 text-gray-200 hover:text-brand-400 rounded-xl text-xs font-bold border border-gray-700 transition flex items-center gap-1.5">
+          <span>📋</span> <span id="topcalc-copy-text">Copy ROAS Result</span>
+        </button>
+
+        <button type="button" id="btn-close-top-calculator-alt" class="px-4 py-2 bg-brand-500 hover:bg-brand-400 text-black text-xs font-extrabold rounded-xl transition shadow-lg shadow-brand-500/20">
+          Done
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
